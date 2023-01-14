@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {#  UTF-8  #}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        {% for i in tracks_sec_stats %}
+            <li>
+                <p>Average lenght: {{ i[0] }} seconds. Total lenght: {{ i[1] }} seconds</p><br>
+                {% if not loop.last %}<hr>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
