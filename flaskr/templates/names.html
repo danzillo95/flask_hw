@@ -9,7 +9,7 @@
     <ul>
         {% for artist in artists %}
             <li>
-                <p>Artsist - {{ artist }}</p><br>
+                <p>Number of unique artists : {{ artist }}</p><br>
                 {% if not loop.last %}<hr>{% endif %}
             </li>
         {% endfor %}

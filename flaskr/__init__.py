@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, render_template
-from Classes import User
+from flaskr.utils.helpers import User
 from faker import Faker
 from markupsafe import escape
 import pandas as pd
@@ -31,34 +31,34 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    @app.route('/tracks-sec')
+    @app.route('/tracks-sec/')
     def tracks_sec():
         datbase = get_db()
         post = datbase.execute("SELECT title, lenght FROM tracks").fetchall()
         return render_template("tracks_sec.html", tracks_sec=[artist[::] for artist in post])
 
-    @app.route('/tracks-sec/statistics')
+    @app.route('/tracks-sec/statistics/')
     def tracks_sec_stat():
         datbase = get_db()
         post = datbase.execute("SELECT AVG(lenght), SUM(lenght) FROM tracks").fetchall()
         return render_template("tracks_sec_stats.html", tracks_sec_stats=[i[::] for i in post])
 
-    @app.route("/names")
+    @app.route("/names/")
     def names():
         datbase = get_db()
-        post = datbase.execute("SELECT DISTINCT artist FROM tracks").fetchall()
+        post = datbase.execute("SELECT COUNT(DISTINCT artist) FROM tracks").fetchall()
         return render_template("names.html", artists=[artist[0] for artist in post])
 
-    @app.route("/tracks")
+    @app.route("/tracks/")
     def tracks():
         datbase = get_db()
-        post = datbase.execute("SELECT title FROM tracks").fetchall()
-        return render_template("tracks.html", titles=len([title[0] for title in post]))
+        post = datbase.execute("SELECT COUNT(title) FROM tracks").fetchall()
+        return render_template("tracks.html", titles=[title[0] for title in post])
 
     @app.route("/tracks/<genre>")
     def tracks2(genre):
         datbase = get_db()
-        post = datbase.execute(f"SELECT title FROM tracks WHERE genre = '{escape(genre)}'").fetchall()
+        post = datbase.execute(f"SELECT COUNT(title) FROM tracks WHERE genre = '{escape(genre)}'").fetchall()
         return render_template("tracks2.html", titles=[title[0] for title in post])
 
     @app.route("/requirments/")
